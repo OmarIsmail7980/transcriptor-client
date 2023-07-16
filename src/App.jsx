@@ -2,9 +2,11 @@ import { VideoList } from "./components";
 
 function App() {
   return (
-    <>
-      <VideoList />
-    </>
+    <main className="flex justify-center bg-[var(--bg-color)]  text-white">
+      <div className="container">
+        <VideoList />
+      </div>
+    </main>
   );
 }
 
