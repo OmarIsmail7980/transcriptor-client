@@ -17,8 +17,11 @@ const SearchBar = () => {
             body:JSON.stringify({query:text})
           }
         ).then((response)=>response.json());
-        
-        setVideoArray(response.videos);
+        const videoMap = new Map();
+        for(let video of response.videos){
+          videoMap.set(video.id.videoId, video);
+        }
+        setVideoArray(videoMap);
     }catch(error){
         alert(error);
     }
