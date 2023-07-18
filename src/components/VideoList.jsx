@@ -1,31 +1,41 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { useVideo } from "../context/VideoContext";
 import SearchBar from "./SearchBar";
 import "./VideoList.css";
 import { NavLink } from "react-router-dom";
 
 const VideoList = () => {
-  const { videoArray} = useVideo();
+  const { videoArray, setVideoArray } = useVideo();
   console.log(videoArray);
   const list = [...videoArray.values()];
-  const [transcript, setTranscript] = useState("");
   console.log(list);
   const dynamicHeight = list.length > 0 ? "h-full" : "h-screen";
 
-  const handleTranscript = async (id) => {
-    try {
-      const response = await fetch(
-        `http://localhost:8091/api/v1/transcribe/${id}`,
-        {
-          method: "GET",
+  useEffect(() => {
+    const getVideos = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8091/api/v1/transcribe",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ query: "NASA" }),
+          }
+        ).then((response) => response.json());
+        const videoMap = new Map();
+        for (let video of response.videos) {
+          videoMap.set(video.id.videoId, video);
         }
-      ).then((response) => response.json());
-      console.log(response.transcript);
-      setTranscript(response.transcript);
-    } catch (error) {
-      alert(error.message);
-    }
-  };
+        setVideoArray(videoMap);
+      } catch (error) {
+        alert(error);
+      }
+    };
+    getVideos();
+  }, []);
+
   return (
     <div className={`${dynamicHeight}`}>
       <SearchBar className="" />
@@ -37,7 +47,7 @@ const VideoList = () => {
                 key={index + Math.random() * 100}
                 to={`/${video.id.videoId}`}
               >
-                <div className="p-4">
+                <div className="px-2 h-[240px] rounded-xl bg-[rgba(255,255,255,0.3)]">
                   <div className="aspect-w-16 aspect-h-9 mb-4">
                     <iframe
                       className="w-full h-full rounded-xl"

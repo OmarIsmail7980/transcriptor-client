@@ -2,7 +2,7 @@ import {VideoList} from "../components";
 const HomePage = () => {
     
   return (
-    <section>
+    <section className="">
       <VideoList/>
     </section>
   );
