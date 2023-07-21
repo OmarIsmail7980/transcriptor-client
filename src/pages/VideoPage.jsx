@@ -5,7 +5,6 @@ import { Loading } from "../components";
 
 const VideoPage = () => {
   const { videoArray } = useVideo();
-  console.log(videoArray);
   const { videoID } = useParams();
   const [transcript, setTranscript] = useState("");
   const selectedVideo = videoArray.get(videoID);
@@ -13,7 +12,6 @@ const VideoPage = () => {
 
   useEffect(() => {
     const getTranscript = async (id) => {
-      console.log({ id });
       try {
         const response = await fetch(
           `https://transcriptor-server.onrender.com/api/v1/transcribe/${id}`,
@@ -22,8 +20,6 @@ const VideoPage = () => {
           }
         ).then((response) => response.json());
 
-        console.log("hello");
-        console.log({ response });
         setTranscript(response.transcript);
       } catch (error) {
         alert(error.message);

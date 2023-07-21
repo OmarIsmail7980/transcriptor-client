@@ -7,9 +7,7 @@ import EmbedVideo from "./EmbedVideo";
 
 const VideoList = () => {
   const { videoArray, setVideoArray } = useVideo();
-  console.log(videoArray);
   const list = [...videoArray.values()];
-  console.log(list);
   const dynamicHeight = list.length > 0 ? "h-full" : "h-screen";
 
   useEffect(() => {
@@ -25,7 +23,6 @@ const VideoList = () => {
             body: JSON.stringify({ query: "blackholes" }),
           }
         ).then((response) => response.json());
-        console.log(response)
         const videoMap = new Map();
         for (let video of response.videos) {
           videoMap.set(video.id.videoId, video);
@@ -43,7 +40,6 @@ const VideoList = () => {
     getVideos();
   }, []);
 
-  console.log(videoArray)
   return (
     <div className={`${dynamicHeight}`}>
       <SearchBar className="" />
