@@ -16,7 +16,7 @@ const VideoPage = () => {
       console.log({ id });
       try {
         const response = await fetch(
-          `http://localhost:8091/api/v1/transcribe/${id}`,
+          `https://transcriptor-server.onrender.com/api/v1/transcribe/${id}`,
           {
             method: "GET",
           }

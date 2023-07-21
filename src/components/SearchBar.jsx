@@ -10,13 +10,16 @@ const SearchBar = () => {
   const handleSubmit = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch("http://localhost:8091/api/v1/transcribe", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ query: text }),
-      }).then((response) => response.json());
+      const response = await fetch(
+        "https://transcriptor-server.onrender.com/api/v1/transcribe",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ query: text }),
+        }
+      ).then((response) => response.json());
       const videoMap = new Map();
       for (let video of response.videos) {
         videoMap.set(video.id.videoId, video);
